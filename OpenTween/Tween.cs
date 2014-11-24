@@ -6265,7 +6265,6 @@ namespace OpenTween
                         //フォーカスList
                         switch (KeyCode)
                         {
-                            case Keys.N:
                             case Keys.Right:
                                 GoRelPost(true);
                                 return true;
@@ -6284,6 +6283,12 @@ namespace OpenTween
                                 return true;
                             case Keys.R:
                                 DoRefresh();
+                                return true;
+                            case Keys.OemQuestion:
+                                MenuItemSubSearch_Click(null, null);
+                                return true;
+                            case Keys.N:
+                                MenuItemSearchNext_Click(null, null);
                                 return true;
                         }
                         //以下、アンカー初期化
@@ -6400,6 +6405,19 @@ namespace OpenTween
                         case Keys.E:
                             // Webページを開く動作
                             OpenURLMenuItem_Click(null, null);
+                            return true;
+                        case Keys.Delete:
+                            /* 追加機能: StatusTextを空にする */
+                            StatusText.Text = "";
+                            _reply_to_id = null;
+                            _reply_to_name = null;
+                            if (!ToolStripFocusLockMenuItem.Checked)
+                                _curList.Focus();
+                            return true;
+                        case Keys.OemOpenBrackets:
+                            /* 追加機能: StatusTextからListに戻る */
+                            if (!ToolStripFocusLockMenuItem.Checked)
+                                _curList.Focus();
                             return true;
                     }
                     //フォーカスList
@@ -6566,6 +6584,9 @@ namespace OpenTween
                             case Keys.M:
                                 GoMiddle();
                                 return true;
+                            case Keys.N:
+                                MenuItemSearchPrev_Click(null, null);
+                                return true;
                             case Keys.G:
                                 GoLast();
                                 return true;
@@ -6578,14 +6599,12 @@ namespace OpenTween
                             case Keys.Oem6:
                                 GoBackInReplyToPostTree(true, true);
                                 return true;
-                            case Keys.N:
                             case Keys.Right:
-                                // お気に入り前後ジャンプ(SHIFT+N←/P→)
+                                // お気に入り前後ジャンプ(SHIFT+←/→)
                                 GoFav(true);
                                 return true;
-                            case Keys.P:
                             case Keys.Left:
-                                // お気に入り前後ジャンプ(SHIFT+N←/P→)
+                                // お気に入り前後ジャンプ(SHIFT+←/→)
                                 GoFav(false);
                                 return true;
                             case Keys.Space:
