@@ -358,7 +358,7 @@
     <value />
   </data>
   <data name="PostButton.Text" xml:space="preserve">
-    <value>Post</value>
+    <value>999</value>
   </data>
   <data name="ToolStripMenuItemUrlMultibyteSplit.Text" xml:space="preserve">
     <value>URLからの全角文字列の切り離し</value>

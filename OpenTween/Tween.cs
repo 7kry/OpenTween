@@ -980,7 +980,7 @@ namespace OpenTween
             StatusLabel.AutoToolTip = false;
             StatusLabel.ToolTipText = "";
             //文字カウンタ初期化
-            lblLen.Text = GetRestStatusCount(true, false).ToString();
+            PostButton.Text = GetRestStatusCount(true, false).ToString();
 
             ////////////////////////////////////////////////////////////////////////////////
             _statuses.SortOrder = (SortOrder)_cfgCommon.SortOrder;
@@ -4854,7 +4854,7 @@ namespace OpenTween
         {
             //文字数カウント
             int pLen = GetRestStatusCount(true, false);
-            lblLen.Text = pLen.ToString();
+            PostButton.Text = pLen.ToString();
             if (pLen < 0)
             {
                 StatusText.ForeColor = Color.Red;
