@@ -41,12 +41,12 @@ namespace OpenTween
         /// <summary>
         /// フィードバック送信先 (メール)
         /// </summary>
-        public const string FeedbackEmailAddress = "kim.upsilon@bucyou.net";
+        public const string FeedbackEmailAddress = "kt@7kry.net";
 
         /// <summary>
         /// フィードバック送信先 (Twitter)
         /// </summary>
-        public const string FeedbackTwitterName = "@kim_upsilon";
+        public const string FeedbackTwitterName = "@_7kry";
 
         //=====================================================================
         // Web サイト
@@ -74,7 +74,7 @@ namespace OpenTween
         /// version.txt のフォーマットについては http://sourceforge.jp/projects/opentween/wiki/VersionTxt を参照。
         /// 派生プロジェクトなどでこの機能を無効にする場合は null をセットして下さい。
         /// </remarks>
-        public static readonly string VersionInfoUrl = "http://www.opentween.org/status/version.txt";
+        public static readonly string VersionInfoUrl = null;
 
         //=====================================================================
         // Twitter
@@ -83,8 +83,8 @@ namespace OpenTween
         /// <summary>
         /// Twitter コンシューマーキー
         /// </summary>
-        public const string TwitterConsumerKey = "ST6eAABKDRKTqbN7pPo2A";
-        public const string TwitterConsumerSecret = "BJMEiivrXlqGESzdb8D0bvLfNYf3fifXRDMFjMogXg";
+        public const string TwitterConsumerKey = "WvmS9R6N0TQUzl3o1KFhZR4GD";
+        public const string TwitterConsumerSecret = "repmkLs2jYhxI4KlDrk445kGw6zAwXcBpImV9zocREPtdkREdf";
 
         //=====================================================================
         // yfrog
