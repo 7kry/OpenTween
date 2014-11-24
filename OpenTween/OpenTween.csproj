@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OpenTween</RootNamespace>
-    <AssemblyName>OpenTween</AssemblyName>
+    <AssemblyName>OpenTween-7kry</AssemblyName>
     <TargetFrameworkVersion Condition="'$(OS)' == 'Windows_NT'">v4.5.1</TargetFrameworkVersion>
     <!-- Mono -->
     <TargetFrameworkVersion Condition="'$(OS)' != 'Windows_NT'">v4.5</TargetFrameworkVersion>
