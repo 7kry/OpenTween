@@ -48,6 +48,7 @@ using OpenTween.Api;
 using OpenTween.Connection;
 using OpenTween.OpenTweenCustomControl;
 using OpenTween.Thumbnail;
+using Microsoft.Scripting.Hosting;
 
 namespace OpenTween
 {
@@ -95,6 +96,7 @@ namespace OpenTween
         private bool _modifySettingLocal = false;
         private bool _modifySettingCommon = false;
         private bool _modifySettingAtId = false;
+        private const string pythonRC = "rc.py";
 
         //twitter解析部
         private Twitter tw = new Twitter();
@@ -208,6 +210,8 @@ namespace OpenTween
 
         private bool _DoFavRetweetFlags = false;
         private bool osResumed = false;
+
+        public static ScriptEngine pyengine = IronPython.Hosting.Python.CreateEngine(); 
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
         private string _postBrowserStatusText = "";
@@ -635,8 +639,35 @@ namespace OpenTween
             }
         }
 
+        private void RunRC()
+        {
+            if (File.Exists(pythonRC))
+            {
+                var pyrc = pyengine.CreateScriptSourceFromFile(pythonRC);
+                var scope = pyengine.CreateScope();
+                scope.SetVariable("set_opacity",
+                    new Action<double>((opacity) => { this.Opacity = opacity; }));
+                scope.SetVariable("set_consumer",
+                    new Action<string, string>((key, secret) => {
+                        ApplicationSettings.TwitterConsumerKey = key;
+                        ApplicationSettings.TwitterConsumerSecret = secret;
+                    }));
+                try
+                {
+                    pyrc.Compile().Execute(scope);
+                }
+                catch (Exception pyex)
+                {
+                    var eo = pyengine.GetService<ExceptionOperations>();
+                    MessageBox.Show(eo.FormatException(pyex), "Error in RC", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }  
+        }
+
         private void TweenMain_Load(object sender, EventArgs e)
         {
+            RunRC();
+
             _ignoreConfigSave = true;
             this.Visible = false;
 
