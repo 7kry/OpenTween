@@ -183,6 +183,12 @@
     <Compile Include="OTPictureBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="PyConsole.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PyConsole.Designer.cs">
+      <DependentUpon>PyConsole.cs</DependentUpon>
+    </Compile>
     <Compile Include="RegexAsync.cs" />
     <Compile Include="Setting\Panel\ActionPanel.cs">
       <SubType>UserControl</SubType>
@@ -484,6 +490,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MediaSelector.zh-CHS.resx">
       <DependentUpon>MediaSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PyConsole.resx">
+      <DependentUpon>PyConsole.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Setting\Panel\ActionPanel.en.resx">
       <DependentUpon>ActionPanel.cs</DependentUpon>

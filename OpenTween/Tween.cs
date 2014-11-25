@@ -6595,10 +6595,15 @@ namespace OpenTween
                     //フォーカスStatusText以外
                     if (Focused != FocusedControl.StatusText)
                     {
-                        if (KeyCode == Keys.R)
+                        switch(KeyCode)
                         {
-                            DoRefreshMore();
-                            return true;
+                            case Keys.R:
+                                DoRefreshMore();
+                                return true;
+                            case Keys.OemSemicolon:
+                                var pycon = new OpenTween.PyConsole();
+                                pycon.Show();
+                                return true;
                         }
                     }
                     //フォーカスリスト
