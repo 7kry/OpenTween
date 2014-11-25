@@ -211,7 +211,8 @@ namespace OpenTween
         private bool _DoFavRetweetFlags = false;
         private bool osResumed = false;
 
-        public static ScriptEngine pyengine = IronPython.Hosting.Python.CreateEngine(); 
+        public static ScriptEngine pyengine = IronPython.Hosting.Python.CreateEngine();
+        public static ScriptScope  pyscope  = pyengine.CreateScope();
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
         private string _postBrowserStatusText = "";
@@ -644,17 +645,16 @@ namespace OpenTween
             if (File.Exists(pythonRC))
             {
                 var pyrc = pyengine.CreateScriptSourceFromFile(pythonRC);
-                var scope = pyengine.CreateScope();
-                scope.SetVariable("set_opacity",
+                pyscope.SetVariable("set_opacity",
                     new Action<double>((opacity) => { this.Opacity = opacity; }));
-                scope.SetVariable("set_consumer",
+                pyscope.SetVariable("set_consumer",
                     new Action<string, string>((key, secret) => {
                         ApplicationSettings.TwitterConsumerKey = key;
                         ApplicationSettings.TwitterConsumerSecret = secret;
                     }));
                 try
                 {
-                    pyrc.Compile().Execute(scope);
+                    pyrc.Compile().Execute(pyscope);
                 }
                 catch (Exception pyex)
                 {
