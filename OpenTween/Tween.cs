@@ -5102,7 +5102,7 @@ namespace OpenTween
         private ListViewItem CreateItem(TabPage Tab, PostClass Post, int Index)
         {
             StringBuilder mk = new StringBuilder();
-            //if (Post.IsDeleted) mk.Append("×");
+            if (Post.IsDeleted) mk.Append("消");
             //if (Post.IsMark) mk.Append("♪");
             //if (Post.IsProtect) mk.Append("Ю");
             //if (Post.InReplyToStatusId != null) mk.Append("⇒");
@@ -5112,7 +5112,7 @@ namespace OpenTween
             {
                 string[] sitem= {"",
                                  Post.Nickname,
-                                 Post.IsDeleted ? "(DELETED)" : Post.TextSingleLine,
+                                 Post.TextSingleLine,
                                  Post.CreatedAt.ToString(this._cfgCommon.DateTimeFormat),
                                  Post.ScreenName,
                                  "",
@@ -5124,7 +5124,7 @@ namespace OpenTween
             {
                 string[] sitem = {"",
                                   Post.Nickname,
-                                  Post.IsDeleted ? "(DELETED)" : Post.TextSingleLine,
+                                  Post.TextSingleLine,
                                   Post.CreatedAt.ToString(this._cfgCommon.DateTimeFormat),
                                   Post.ScreenName + Environment.NewLine + "(RT:" + Post.RetweetedBy + ")",
                                   "",
@@ -6116,7 +6116,7 @@ namespace OpenTween
                     if (_curPost.StatusId != oldDisplayPost.StatusId)
                     {
                         this.PostBrowser.DocumentText =
-                            this.createDetailHtml(_curPost.IsDeleted ? "(DELETED)" : _curPost.Text);
+                            this.createDetailHtml(_curPost.Text);
 
                         this.PostBrowser.Document.Window.ScrollTo(0, 0);
 
@@ -6939,7 +6939,6 @@ namespace OpenTween
                     IsProtected = true;
                     continue;
                 }
-                if (post.IsDeleted) continue;
                 if (!isDm)
                 {
                     if (post.RetweetedId != null)
@@ -12844,7 +12843,6 @@ namespace OpenTween
             get
             {
                 if (_curPost == null) return false;
-                if (_curPost.IsDeleted) return false;
                 return true;
             }
         }
