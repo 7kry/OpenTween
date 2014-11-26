@@ -112,7 +112,7 @@ namespace OpenTween
         public AtIdSupplement AtIdSupl;     //@id補助
         public AtIdSupplement HashSupl;    //Hashtag補助
         public HashtagManage HashMgr;
-        private EventViewerDialog evtDialog;
+        public EventViewerDialog evtDialog;
 
         //表示フォント、色、アイコン
         private Font _fntUnread;            //未読用フォント
@@ -213,6 +213,7 @@ namespace OpenTween
 
         public static ScriptEngine pyengine = IronPython.Hosting.Python.CreateEngine();
         public static ScriptScope  pyscope  = pyengine.CreateScope();
+        public static TweenMain MainForm;
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
         private string _postBrowserStatusText = "";
@@ -12132,6 +12133,7 @@ namespace OpenTween
         private HookGlobalHotkey _hookGlobalHotkey;
         public TweenMain()
         {
+            MainForm = this;
             _hookGlobalHotkey = new HookGlobalHotkey(this);
 
             // この呼び出しは、Windows フォーム デザイナで必要です。

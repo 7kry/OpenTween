@@ -158,6 +158,11 @@ namespace OpenTween
             CreateFilterdEventSource();
         }
 
+        public void CreateFilterdEventSourceInvoke()
+        {
+            Invoke(new Action(CreateFilterdEventSource));
+        }
+
         private void TabEventType_SelectedIndexChanged(object sender, EventArgs e)
         {
             CreateFilterdEventSource();

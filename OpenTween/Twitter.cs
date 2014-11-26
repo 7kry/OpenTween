@@ -3631,6 +3631,11 @@ namespace OpenTween
             }
             this.StoredEvent.Insert(0, evt);
 
+            if (TweenMain.MainForm.evtDialog != null && !TweenMain.MainForm.evtDialog.IsDisposed)
+            {
+                TweenMain.MainForm.evtDialog.CreateFilterdEventSourceInvoke();
+            }
+
             if (this.UserStreamEventReceived != null)
                 this.UserStreamEventReceived(this, new UserStreamEventReceivedEventArgs(evt));
         }
