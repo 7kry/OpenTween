@@ -158,7 +158,7 @@ namespace OpenTween
             CreateFilterdEventSource();
         }
 
-        public void CreateFilterdEventSourceInvoke()
+        public void InvokeCreateFilterdEventSource()
         {
             Invoke(new Action(CreateFilterdEventSource));
         }

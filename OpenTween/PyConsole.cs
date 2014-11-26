@@ -14,8 +14,14 @@ namespace OpenTween
 {
     public partial class PyConsole : Form
     {
-        public PyConsole()
+        private ScriptEngine pyengine;
+        private ScriptScope pyscope;
+
+        public PyConsole(ScriptEngine pyengine, ScriptScope pyscope)
         {
+            this.pyengine = pyengine;
+            this.pyscope = pyscope;
+
             InitializeComponent();
             textBox1.Focus();        
         }
@@ -26,11 +32,11 @@ namespace OpenTween
             {
                 e.SuppressKeyPress = true;
                 var codestr = textBox1.Text;
-                var src = TweenMain.pyengine.CreateScriptSourceFromString(codestr);
+                var src = pyengine.CreateScriptSourceFromString(codestr);
                 textBox2.AppendText(string.Join("\n... ", codestr.Split('\n')) + "\r\n");
                 try
                 {
-                    var ret = src.Compile().Execute(TweenMain.pyscope);
+                    var ret = src.Compile().Execute(pyscope);
                     if (ret != null)
                     {
                         try
@@ -45,7 +51,7 @@ namespace OpenTween
                 }
                 catch (Exception pyex)
                 {
-                    var eo = TweenMain.pyengine.GetService<ExceptionOperations>();
+                    var eo = pyengine.GetService<ExceptionOperations>();
                     textBox2.AppendText(eo.FormatException(pyex) + "\r\n");
                 }
                 textBox2.AppendText(">>> ");

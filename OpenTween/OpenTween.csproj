@@ -110,6 +110,7 @@
       <DependentUpon>AuthDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Bing.cs" />
+    <Compile Include="PytohnRC.cs" />
     <Compile Include="Connection\HttpOAuthApiProxy.cs" />
     <Compile Include="Connection\HttpTwitter.cs">
       <SubType>Code</SubType>

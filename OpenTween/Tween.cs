@@ -96,7 +96,6 @@ namespace OpenTween
         private bool _modifySettingLocal = false;
         private bool _modifySettingCommon = false;
         private bool _modifySettingAtId = false;
-        private const string pythonRC = "rc.py";
 
         //twitter解析部
         private Twitter tw = new Twitter();
@@ -211,9 +210,16 @@ namespace OpenTween
         private bool _DoFavRetweetFlags = false;
         private bool osResumed = false;
 
-        public static ScriptEngine pyengine = IronPython.Hosting.Python.CreateEngine();
-        public static ScriptScope  pyscope  = pyengine.CreateScope();
-        public static TweenMain MainForm;
+        private ScriptEngine _pyengine;
+        private ScriptScope  _pyscope;
+        public ScriptEngine pyengine
+        {
+            get { return _pyengine; }
+        }
+        public ScriptScope pyscope
+        {
+            get { return _pyscope; }
+        }
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
         private string _postBrowserStatusText = "";
@@ -641,37 +647,9 @@ namespace OpenTween
             }
         }
 
-        private void RunRC()
-        {
-            if (File.Exists(pythonRC))
-            {
-                var pyrc = pyengine.CreateScriptSourceFromFile(pythonRC);
-                var mod = new IronPython.Runtime.PythonModule();
-                mod.__setattr__(IronPython.Runtime.DefaultContext.Default,
-                    "set_opacity",
-                    new Action<double>((opacity) => { this.Opacity = opacity; }));
-                mod.__setattr__(IronPython.Runtime.DefaultContext.Default, 
-                    "set_consumer",
-                    new Action<string, string>((key, secret) => {
-                        ApplicationSettings.TwitterConsumerKey = key;
-                        ApplicationSettings.TwitterConsumerSecret = secret;
-                    }));
-                pyscope.SetVariable("tweenenv", mod);
-                try
-                {
-                    pyrc.Compile().Execute(pyscope);
-                }
-                catch (Exception pyex)
-                {
-                    var eo = pyengine.GetService<ExceptionOperations>();
-                    MessageBox.Show(eo.FormatException(pyex), "Error in RC", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }  
-        }
-
         private void TweenMain_Load(object sender, EventArgs e)
         {
-            RunRC();
+            PytohnRC.initialize(this);
 
             _ignoreConfigSave = true;
             this.Visible = false;
@@ -6606,7 +6584,7 @@ namespace OpenTween
                                 DoRefreshMore();
                                 return true;
                             case Keys.OemSemicolon:
-                                var pycon = new OpenTween.PyConsole();
+                                var pycon = new OpenTween.PyConsole(pyengine, pyscope);
                                 pycon.Show();
                                 return true;
                         }
@@ -12137,11 +12115,12 @@ namespace OpenTween
         private HookGlobalHotkey _hookGlobalHotkey;
         public TweenMain()
         {
-            MainForm = this;
+            _pyengine = IronPython.Hosting.Python.CreateEngine();
+            _pyscope  = _pyengine.CreateScope();
             _hookGlobalHotkey = new HookGlobalHotkey(this);
 
             // この呼び出しは、Windows フォーム デザイナで必要です。
-            InitializeComponent();
+            InitializeComponent(); 
 
             // InitializeComponent() 呼び出しの後で初期化を追加します。
 
@@ -12601,6 +12580,12 @@ namespace OpenTween
             }
             var ev = e.EventData;
             StatusLabel.Text = "Event: " + ev.Event;
+
+            if (evtDialog != null && !evtDialog.IsDisposed)
+            {
+                evtDialog.InvokeCreateFilterdEventSource();
+            }
+
             //if (ev.Event == "favorite")
             //{
             //    NotifyFavorite(ev);

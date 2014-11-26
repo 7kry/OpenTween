@@ -83,8 +83,21 @@ namespace OpenTween
         /// <summary>
         /// Twitter コンシューマーキー
         /// </summary>
-        public static string TwitterConsumerKey = "WvmS9R6N0TQUzl3o1KFhZR4GD";
-        public static string TwitterConsumerSecret = "repmkLs2jYhxI4KlDrk445kGw6zAwXcBpImV9zocREPtdkREdf";
+        private static string _TwitterConsumerKey = "WvmS9R6N0TQUzl3o1KFhZR4GD";
+        private static string _TwitterConsumerSecret = "repmkLs2jYhxI4KlDrk445kGw6zAwXcBpImV9zocREPtdkREdf";
+        public static string TwitterConsumerKey
+        {
+            get { return _TwitterConsumerKey; }
+        }
+        public static string TwitterConsumerSecret
+        {
+            get { return _TwitterConsumerSecret; }
+        }
+        public static void SetConsumer(string key, string secret)
+        {
+            _TwitterConsumerKey = key;
+            _TwitterConsumerSecret = secret;
+        }
 
         //=====================================================================
         // yfrog
