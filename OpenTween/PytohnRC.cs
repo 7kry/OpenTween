@@ -15,17 +15,18 @@ namespace OpenTween
 
         public static void initialize(TweenMain mainForm)
         {
+            var mod = new IronPython.Runtime.PythonModule();
+            mod.__setattr__(IronPython.Runtime.DefaultContext.Default,
+                "set_opacity",
+                new Action<double>((opacity) => { mainForm.Opacity = opacity; }));
+            mod.__setattr__(IronPython.Runtime.DefaultContext.Default,
+                "set_consumer",
+                new Action<string, string>(ApplicationSettings.SetConsumer));
+            mainForm.pyscope.SetVariable("tweenenv", mod);
+
             if (File.Exists(PythonRCFile))
             {
                 var pyrc = mainForm.pyengine.CreateScriptSourceFromFile(PythonRCFile);
-                var mod = new IronPython.Runtime.PythonModule();
-                mod.__setattr__(IronPython.Runtime.DefaultContext.Default,
-                    "set_opacity",
-                    new Action<double>((opacity) => { mainForm.Opacity = opacity; }));
-                mod.__setattr__(IronPython.Runtime.DefaultContext.Default, 
-                    "set_consumer",
-                    new Action<string, string>(ApplicationSettings.SetConsumer));
-               mainForm.pyscope.SetVariable("tweenenv", mod);
                 try
                 {
                     pyrc.Compile().Execute(mainForm.pyscope);
