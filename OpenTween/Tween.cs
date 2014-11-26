@@ -646,13 +646,17 @@ namespace OpenTween
             if (File.Exists(pythonRC))
             {
                 var pyrc = pyengine.CreateScriptSourceFromFile(pythonRC);
-                pyscope.SetVariable("set_opacity",
+                var mod = new IronPython.Runtime.PythonModule();
+                mod.__setattr__(IronPython.Runtime.DefaultContext.Default,
+                    "set_opacity",
                     new Action<double>((opacity) => { this.Opacity = opacity; }));
-                pyscope.SetVariable("set_consumer",
+                mod.__setattr__(IronPython.Runtime.DefaultContext.Default, 
+                    "set_consumer",
                     new Action<string, string>((key, secret) => {
                         ApplicationSettings.TwitterConsumerKey = key;
                         ApplicationSettings.TwitterConsumerSecret = secret;
                     }));
+                pyscope.SetVariable("tweenenv", mod);
                 try
                 {
                     pyrc.Compile().Execute(pyscope);
