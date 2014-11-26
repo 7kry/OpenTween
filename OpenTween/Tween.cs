@@ -6436,6 +6436,15 @@ namespace OpenTween
                             if (!ToolStripFocusLockMenuItem.Checked)
                                 _curList.Focus();
                             return true;
+                        case Keys.P:
+                        case Keys.N:
+                            /* 追加機能: アカウント切り替え */
+                            int idx = _cfgCommon.UserAccounts.FindIndex((item) => (item.Token == posttw.AccessToken));
+                            idx = (KeyCode == Keys.P ? --idx + _cfgCommon.UserAccounts.Count : ++idx) % _cfgCommon.UserAccounts.Count;
+                            var newaccount = _cfgCommon.UserAccounts[idx];
+                            posttw.Initialize(newaccount.Token, newaccount.TokenSecret, newaccount.Username, newaccount.UserId);
+                            lblLen.Text = "@" + posttw.Username;
+                            return true;
                     }
                     //フォーカスList
                     if (Focused == FocusedControl.ListTab)
@@ -6446,12 +6455,6 @@ namespace OpenTween
                             case Keys.End:
                                 _colorize = true;
                                 return false;            //スルーする
-                            case Keys.N:
-                                GoNextTab(true);
-                                return true;
-                            case Keys.P:
-                                GoNextTab(false);
-                                return true;
                             case Keys.C:
                                 CopyStot();
                                 return true;
@@ -6526,15 +6529,6 @@ namespace OpenTween
                                     ListTab.SelectedIndex += 1;
                                 }
                                 StatusText.Focus();
-                                return true;
-                            case Keys.P:
-                            case Keys.N:
-                                /* 追加機能: アカウント切り替え */
-                                int idx = _cfgCommon.UserAccounts.FindIndex((item) => (item.Token == posttw.AccessToken));
-                                idx = (KeyCode == Keys.P ? --idx + _cfgCommon.UserAccounts.Count : ++idx) % _cfgCommon.UserAccounts.Count;
-                                var newaccount = _cfgCommon.UserAccounts[idx];
-                                posttw.Initialize(newaccount.Token, newaccount.TokenSecret, newaccount.Username, newaccount.UserId);
-                                lblLen.Text = "@" + posttw.Username;
                                 return true;
                         }
                     }
