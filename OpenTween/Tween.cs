@@ -112,7 +112,7 @@ namespace OpenTween
         public AtIdSupplement AtIdSupl;     //@id補助
         public AtIdSupplement HashSupl;    //Hashtag補助
         public HashtagManage HashMgr;
-        public EventViewerDialog evtDialog;
+        private EventViewerDialog evtDialog;
 
         //表示フォント、色、アイコン
         private Font _fntUnread;            //未読用フォント
