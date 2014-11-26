@@ -17,8 +17,11 @@ namespace OpenTween
         {
             var mod = new IronPython.Runtime.PythonModule();
             mod.__setattr__(IronPython.Runtime.DefaultContext.Default,
-                "set_opacity",
-                new Action<double>((opacity) => { mainForm.Opacity = opacity; }));
+                "__name__",
+                "tweenenv");
+            mod.__setattr__(IronPython.Runtime.DefaultContext.Default,
+                "TweenMain",
+                mainForm);
             mod.__setattr__(IronPython.Runtime.DefaultContext.Default,
                 "set_consumer",
                 new Action<string, string>(ApplicationSettings.SetConsumer));
