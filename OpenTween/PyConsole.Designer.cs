@@ -54,6 +54,7 @@
             this.textBox2.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.textBox2.Size = new System.Drawing.Size(591, 285);
             this.textBox2.TabIndex = 2;
+            this.textBox2.Text = ">>> ";
             // 
             // PyConsole
             // 

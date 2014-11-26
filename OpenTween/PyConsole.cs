@@ -24,19 +24,31 @@ namespace OpenTween
         {
             if (e.KeyCode == Keys.Enter && (e.Control || e.Shift || e.Alt))
             {
-                e.Handled = true;
+                e.SuppressKeyPress = true;
                 var codestr = textBox1.Text;
                 var src = TweenMain.pyengine.CreateScriptSourceFromString(codestr);
-                textBox2.Text += ">>> " + string.Join("\n... ", codestr.Split('\n')) + "\r\n";
+                textBox2.AppendText(string.Join("\n... ", codestr.Split('\n')) + "\r\n");
                 try
                 {
-                    textBox2.Text += src.Compile().Execute(TweenMain.pyscope) + "\r\n";
+                    var ret = src.Compile().Execute(TweenMain.pyscope);
+                    if (ret != null)
+                    {
+                        try
+                        {
+                            textBox2.AppendText(ret.__repr__(IronPython.Runtime.DefaultContext.Default) + "\r\n");
+                        }
+                        catch (Exception)
+                        {
+                            textBox2.AppendText(ret.ToString() + "\r\n");
+                        }
+                    }
                 }
                 catch (Exception pyex)
                 {
                     var eo = TweenMain.pyengine.GetService<ExceptionOperations>();
-                    textBox2.Text += eo.FormatException(pyex) + "\r\n";
+                    textBox2.AppendText(eo.FormatException(pyex) + "\r\n");
                 }
+                textBox2.AppendText(">>> ");
             }
             else if (e.KeyCode == Keys.Delete && e.Control)
             {
