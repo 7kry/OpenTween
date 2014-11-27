@@ -35,6 +35,9 @@ namespace OpenTween
                 "set_statustext",
                 new Action<string, string, long?>((text, screen_name, id) => mainForm.StatusTextInfo = new Tuple<string, string, long?>(text, screen_name, id)));
             mod.__setattr__(IronPython.Runtime.DefaultContext.Default,
+                "clear_statustext",
+                new Action(mainForm.ClearStatusText));
+            mod.__setattr__(IronPython.Runtime.DefaultContext.Default,
                 "show_user",
                 new Action<string>((screen_name) => mainForm.ShowUserStatus(screen_name, false)));
             mainForm.pyscope.SetVariable("tweenenv", mod);

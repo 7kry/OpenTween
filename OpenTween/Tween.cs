@@ -178,6 +178,13 @@ namespace OpenTween
             }
         }
 
+        public void ClearStatusText()
+        {
+            StatusText.Text = "";
+            _reply_to_name  = "";
+            _reply_to_id    = null;
+        }
+
         //時速表示用
         private List<DateTime> _postTimestamps = new List<DateTime>();
         private List<DateTime> _favTimestamps = new List<DateTime>();
@@ -6448,9 +6455,7 @@ namespace OpenTween
                             return true;
                         case Keys.Delete:
                             /* 追加機能: StatusTextを空にする */
-                            StatusText.Text = "";
-                            _reply_to_id = null;
-                            _reply_to_name = null;
+                            ClearStatusText();
                             if (!ToolStripFocusLockMenuItem.Checked)
                                 _curList.Focus();
                             return true;
