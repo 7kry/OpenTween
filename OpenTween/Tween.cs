@@ -160,6 +160,24 @@ namespace OpenTween
         private long? _reply_to_id;     // リプライ先のステータスID 0の場合はリプライではない 注：複数あてのものはリプライではない
         private string _reply_to_name;    // リプライ先ステータスの書き込み者の名前
 
+        public Tuple<string, string, long?> StatusTextInfo
+        {
+            get
+            {
+                return new Tuple<string, string, long?>(
+                    StatusText.Text,
+                    _reply_to_name,
+                    _reply_to_id
+                );
+            }
+            set
+            {
+                StatusText.Text = value.Item1;
+                _reply_to_name  = value.Item2;
+                _reply_to_id    = value.Item3;
+            }
+        }
+
         //時速表示用
         private List<DateTime> _postTimestamps = new List<DateTime>();
         private List<DateTime> _favTimestamps = new List<DateTime>();
@@ -12005,7 +12023,7 @@ namespace OpenTween
             }
         }
 
-        private void ShowUserStatus(string id, bool ShowInputDialog)
+        public void ShowUserStatus(string id, bool ShowInputDialog)
         {
             doShowUserStatus(id, ShowInputDialog);
         }
