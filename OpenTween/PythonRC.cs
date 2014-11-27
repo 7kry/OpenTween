@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace OpenTween
 {
-    class PytohnRC
+    class PythonRC
     {
         private const string PythonRCFile = "rc.py";
 

@@ -654,7 +654,7 @@ namespace OpenTween
 
         private void TweenMain_Load(object sender, EventArgs e)
         {
-            PytohnRC.initialize(this);
+            PythonRC.initialize(this);
 
             _ignoreConfigSave = true;
             this.Visible = false;
