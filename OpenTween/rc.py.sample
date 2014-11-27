@@ -66,6 +66,10 @@ def open_all_uri():
   for uri in re.findall('<a href=".*?" title="(.*?)">', tweenenv.TweenMain.curPost.Text):
     tweenenv.TweenMain.OpenUriAsync(uri)
 
+# ユーザ情報を表示する関数
+def whois(screen_name = None):
+  tweenenv.show_user(screen_name or tweenenv.TweenMain.curPost.ScreenName)
+
 # キーバインドの登録
 tweenenv.TweenMain.keyMaps += [
   ((Keys.Insert, FoCon.StatusText, ModState.Ctrl),                stash),
