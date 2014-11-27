@@ -69,7 +69,6 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.Text = "PyConsole";
-            this.TopMost = true;
             this.ResumeLayout(false);
             this.PerformLayout();
 
