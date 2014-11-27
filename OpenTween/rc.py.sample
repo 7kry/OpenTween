@@ -1,0 +1,66 @@
+# vim:fileencoding=utf-8:ft=python
+
+# 以下3行文字コード関連のおまじない
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
+# キーバインドの設定で必要な諸々
+__import__('clr').AddReference('System.Windows.Forms')
+from System.Windows.Forms import Keys
+from System.Windows.Forms import MessageBox, MessageBoxButtons, MessageBoxIcon
+FoCon    = tweenenv.TweenMain.FocusedControl
+ModState = tweenenv.TweenMain.ModifierState
+
+# Consumerの変更
+tweenenv.set_consumer('**********************', '******************************************')
+
+# ミュートするSource (要完全一致)
+mutedsource = [
+  'twittbot.net',
+  'rakubo2',
+  'Sprinklr',
+  'autotweety.net',
+  'このまま眠り続けて死ぬ',
+  'ツイ廃アラート',
+  'リプライ数チェッカ',
+  '午前3時の茨城県',
+  '占ぃったー',
+  'tweetmag1c for android',
+  'friend ranking',
+  'twiroboJP',
+  'Tweet Battery',
+]
+
+# ミュートフィルタの実装
+def mutefilter(status):
+  if unicode(status.Source) in mutedsource:
+    return True
+
+# ミュートフィルタの登録
+tweenenv.set_mutefilter(mutefilter)
+
+# 透過の設定
+tweenenv.TweenMain.Opacity = 0.86
+
+# 下書き
+stashed = []
+def stash():
+  stashed.append(tweenenv.get_statustext())
+  tweenenv.clear_statustext()
+
+def unstash():
+  if stashed:
+    popped = stashed.pop()
+    if tweenenv.get_statustext().Item1:
+      stash()
+    tweenenv.set_statustext(popped.Item1, popped.Item2, popped.Item3)
+  else:
+    MessageBox.Show('No tweets are stashed.', 'Failed to unstash',
+                    MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+
+# キーバインドの登録
+tweenenv.TweenMain.keyMaps += [
+  ((Keys.Insert, FoCon.StatusText, ModState.Ctrl),  stash),
+  ((Keys.Insert, None,             ModState.Shift), unstash),
+]

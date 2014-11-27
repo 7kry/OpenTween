@@ -178,6 +178,8 @@ namespace OpenTween
                 StatusText.Text = value.Item1;
                 _reply_to_name  = value.Item2;
                 _reply_to_id    = value.Item3;
+                StatusText.Focus();
+                StatusText.SelectionStart = StatusText.Text.Length;
             }
         }
 
@@ -186,6 +188,8 @@ namespace OpenTween
             StatusText.Text = "";
             _reply_to_name  = "";
             _reply_to_id    = null;
+            if (!ToolStripFocusLockMenuItem.Checked)
+                _curList.Focus();
         }
 
         //時速表示用
@@ -6463,8 +6467,6 @@ namespace OpenTween
                         case Keys.Delete:
                             /* 追加機能: StatusTextを空にする */
                             ClearStatusText();
-                            if (!ToolStripFocusLockMenuItem.Checked)
-                                _curList.Focus();
                             return true;
                         case Keys.OemOpenBrackets:
                             /* 追加機能: StatusTextからListに戻る */
