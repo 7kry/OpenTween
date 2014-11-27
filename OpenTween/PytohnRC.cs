@@ -25,6 +25,9 @@ namespace OpenTween
             mod.__setattr__(IronPython.Runtime.DefaultContext.Default,
                 "set_consumer",
                 new Action<string, string>(ApplicationSettings.SetConsumer));
+            mod.__setattr__(IronPython.Runtime.DefaultContext.Default,
+                "set_mutefilter",
+                new Action<Func<PostClass, bool>>((func) => TabInformations.GetInstance().MuteFilter = func));
             mainForm.pyscope.SetVariable("tweenenv", mod);
 
             if (File.Exists(PythonRCFile))

@@ -25,6 +25,7 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+using Microsoft.Scripting.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -397,6 +398,7 @@ namespace OpenTween
 
         public List<long> BlockIds = new List<long>();
         public List<long> MuteUserIds = new List<long>();
+        public Func<PostClass, bool> MuteFilter = null;
 
         //発言の追加
         //AddPost(複数回) -> DistributePosts          -> SubmitUpdate
@@ -1236,6 +1238,17 @@ namespace OpenTween
             // 参照: https://support.twitter.com/articles/20171399-muting-users-on-twitter
             if (!string.IsNullOrEmpty(post.RelTabName) || post.IsReply)
                 return false;
+
+            try
+            {
+                if (this.MuteFilter != null && this.MuteFilter(post))
+                    return true;
+            }
+            catch (Exception pyex)
+            {
+                var eo = IronPython.Hosting.Python.CreateEngine().GetService<ExceptionOperations>();
+                MessageBox.Show(eo.FormatException(pyex), "Error in MuteFilter", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
             if (this.MuteUserIds.Contains(post.UserId))
                 return true;
