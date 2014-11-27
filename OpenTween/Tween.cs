@@ -113,6 +113,7 @@ namespace OpenTween
         public AtIdSupplement HashSupl;    //Hashtag補助
         public HashtagManage HashMgr;
         private EventViewerDialog evtDialog;
+        private PyConsole pyCon = null;
 
         //表示フォント、色、アイコン
         private Font _fntUnread;            //未読用フォント
@@ -6592,8 +6593,15 @@ namespace OpenTween
                                 DoRefreshMore();
                                 return true;
                             case Keys.OemSemicolon:
-                                var pycon = new OpenTween.PyConsole(pyengine, pyscope);
-                                pycon.Show();
+                                if (pyCon == null || pyCon.IsDisposed)
+                                {
+                                    pyCon = new OpenTween.PyConsole(pyengine, pyscope);
+                                    pyCon.Show();
+                                }
+                                else
+                                {
+                                    pyCon.Focus();
+                                }
                                 return true;
                         }
                     }
