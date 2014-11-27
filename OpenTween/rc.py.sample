@@ -1,7 +1,9 @@
 # vim:fileencoding=utf-8:ft=python
 
-# 以下3行文字コード関連のおまじない
+import re
 import sys
+
+# 以下3行文字コード関連のおまじない
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
@@ -13,23 +15,23 @@ FoCon    = tweenenv.TweenMain.FocusedControl
 ModState = tweenenv.TweenMain.ModifierState
 
 # Consumerの変更
-tweenenv.set_consumer('**********************', '******************************************')
+#tweenenv.set_consumer('**********************', '******************************************')
 
 # ミュートするSource (要完全一致)
 mutedsource = [
-  'twittbot.net',
-  'rakubo2',
-  'Sprinklr',
-  'autotweety.net',
-  'このまま眠り続けて死ぬ',
-  'ツイ廃アラート',
-  'リプライ数チェッカ',
-  '午前3時の茨城県',
-  '占ぃったー',
-  'tweetmag1c for android',
-  'friend ranking',
-  'twiroboJP',
-  'Tweet Battery',
+#  'twittbot.net',
+#  'rakubo2',
+#  'Sprinklr',
+#  'autotweety.net',
+#  'このまま眠り続けて死ぬ',
+#  'ツイ廃アラート',
+#  'リプライ数チェッカ',
+#  '午前3時の茨城県',
+#  '占ぃったー',
+#  'tweetmag1c for android',
+#  'friend ranking',
+#  'twiroboJP',
+#  'Tweet Battery',
 ]
 
 # ミュートフィルタの実装
@@ -41,7 +43,7 @@ def mutefilter(status):
 tweenenv.set_mutefilter(mutefilter)
 
 # 透過の設定
-tweenenv.TweenMain.Opacity = 0.86
+#tweenenv.TweenMain.Opacity = 0.86
 
 # 下書き
 stashed = []
@@ -59,8 +61,14 @@ def unstash():
     MessageBox.Show('No tweets are stashed.', 'Failed to unstash',
                     MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 
+# OpenURL強制全Open版
+def open_all_uri():
+  for uri in re.findall('<a href=".*?" title="(.*?)">', tweenenv.TweenMain.curPost.Text):
+    tweenenv.TweenMain.OpenUriAsync(uri)
+
 # キーバインドの登録
 tweenenv.TweenMain.keyMaps += [
-  ((Keys.Insert, FoCon.StatusText, ModState.Ctrl),  stash),
-  ((Keys.Insert, None,             ModState.Shift), unstash),
+  ((Keys.Insert, FoCon.StatusText, ModState.Ctrl),                stash),
+  ((Keys.Insert, None,             ModState.Shift),               unstash),
+  ((Keys.E,      FoCon.ListTab,    ModState.Ctrl | ModState.Alt), open_all_uri),
 ]
