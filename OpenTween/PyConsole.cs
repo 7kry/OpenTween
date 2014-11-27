@@ -39,13 +39,29 @@ namespace OpenTween
                     var ret = src.Compile().Execute(pyscope);
                     if (ret != null)
                     {
+                        int retry = 0;
+                    retrying:
                         try
                         {
-                            textBox2.AppendText(ret.__repr__(IronPython.Runtime.DefaultContext.Default) + "\r\n");
+                            switch(retry)
+                            {
+                                case 0:
+                                    textBox2.AppendText(ret.__repr__(IronPython.Runtime.DefaultContext.Default) + "\r\n");
+                                    break;
+                                case 1:
+                                    textBox2.AppendText(ret.ToString() + "\r\n");
+                                    break;
+                                case 2:
+                                    var tmpscope = pyengine.CreateScope();
+                                    tmpscope.SetVariable("hoge", ret);
+                                    textBox2.AppendText(pyengine.Execute<string>("str(hoge)", tmpscope) + "\r\n");
+                                    break;
+                            }
                         }
                         catch (Exception)
                         {
-                            textBox2.AppendText(ret.ToString() + "\r\n");
+                            ++retry;
+                            goto retrying;
                         }
                     }
                 }
