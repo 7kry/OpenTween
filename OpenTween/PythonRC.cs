@@ -56,5 +56,39 @@ namespace OpenTween
                 }
             }
         }
+
+        static dynamic func = null;
+
+        public static bool KeyMapping(ScriptEngine pyengine, IronPython.Runtime.List keyMaps, Tuple<Keys, TweenMain.FocusedControl, TweenMain.ModifierState> kinfo)
+        {
+            if(func == null)
+                func = pyengine.CreateScriptSourceFromString(@"
+def func(keymaps, kinfo):
+  for km, f in keymaps:
+    if kinfo.Item1 == km[0]: # Key
+      if km[1] is None or kinfo.Item2 == km[1]: # Focus
+        if kinfo.Item3 == km[2]: # ModifierState
+          return f
+  return None
+func").Compile().Execute();
+            var f = func(keyMaps, kinfo);
+            if(f != null)
+            {
+                try
+                {
+                    f();
+                }
+                catch(Exception e)
+                {
+                    var eo = pyengine.GetService<ExceptionOperations>();
+                    MessageBox.Show(eo.FormatException(e), "Error in KeyMapping", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

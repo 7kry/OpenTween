@@ -160,6 +160,9 @@ namespace OpenTween
         private long? _reply_to_id;     // リプライ先のステータスID 0の場合はリプライではない 注：複数あてのものはリプライではない
         private string _reply_to_name;    // リプライ先ステータスの書き込み者の名前
 
+        // キーマップ: ((Key, Focus, Modifier), function) のタプルを格納
+        public IronPython.Runtime.List keyMaps = new IronPython.Runtime.List();
+
         public Tuple<string, string, long?> StatusTextInfo
         {
             get
@@ -6207,7 +6210,7 @@ namespace OpenTween
         }
 
         [FlagsAttribute]
-        private enum ModifierState
+        public enum ModifierState
         {
             None = 0,
             Alt = 1,
@@ -6223,7 +6226,7 @@ namespace OpenTween
             //StatusText = 103,
         }
 
-        private enum FocusedControl : int
+        public enum FocusedControl : int
         {
             None,
             ListTab,
@@ -6231,8 +6234,12 @@ namespace OpenTween
             PostBrowser,
         }
 
-        private bool CommonKeyDown(Keys KeyCode, FocusedControl Focused, ModifierState Modifier)
+        public bool CommonKeyDown(Keys KeyCode, FocusedControl Focused, ModifierState Modifier, bool noremap = false)
         {
+            if(!noremap)
+                if(PythonRC.KeyMapping(_pyengine, keyMaps, new Tuple<Keys, FocusedControl, ModifierState>(KeyCode, Focused, Modifier)))
+                    return true;
+
             //リストのカーソル移動関係（上下キー、PageUp/Downに該当）
             if (Focused == FocusedControl.ListTab)
             {
