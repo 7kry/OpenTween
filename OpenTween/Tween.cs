@@ -6326,7 +6326,7 @@ namespace OpenTween
                                 if (this.StatusText.Enabled) this.StatusText.Focus();
                                 return true;
                             case Keys.Enter:
-                                MakeReplyOrDirectStatus();
+                                MyList_MouseDoubleClick(null, null);
                                 return true;
                             case Keys.R:
                                 DoRefresh();
