@@ -191,6 +191,10 @@ namespace OpenTween
         private int _curItemIndex;
         private DetailsListView _curList;
         private PostClass _curPost;
+        public PostClass curPost
+        {
+            get { return _curPost; }
+        }
         private bool _isColumnChanged = false;
         private bool _waitTimeline = false;
         private bool _waitReply = false;
