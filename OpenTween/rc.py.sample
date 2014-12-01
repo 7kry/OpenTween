@@ -72,7 +72,15 @@ def whois(screen_name = None):
 
 # キーバインドの登録
 tweenenv.TweenMain.keyMaps += [
+  # (StatusText) Ctrl + Insert : 下書き退避
   ((Keys.Insert, FoCon.StatusText, ModState.Ctrl),                stash),
+  # (フォーカス関係無し) Ctrl + Insert : 下書き復元
   ((Keys.Insert, None,             ModState.Shift),               unstash),
+  # (ListTab) Ctrl + Alt + E : URL一括Open (ダイアログ無し)
   ((Keys.E,      FoCon.ListTab,    ModState.Ctrl | ModState.Alt), open_all_uri),
+  # (ListTab) lとhの入れ替え
+  ((Keys.L, FoCon.ListTab, ModState.None),
+    lambda: tweenenv.TweenMain.CommonKeyDown(Keys.H, FoCon.ListTab, ModState.None, True)),
+  ((Keys.H, FoCon.ListTab, ModState.None),
+    lambda: tweenenv.TweenMain.CommonKeyDown(Keys.L, FoCon.ListTab, ModState.None, True)),
 ]
